@@ -1,0 +1,49 @@
+package com.ccsw.tutorialreservation.reservation.model;
+
+import com.ccsw.tutorialreservation.common.pagination.PageableRequest;
+
+import java.time.LocalDate;
+
+/**
+ * @author ccsw
+ *
+ */
+public class ReservationSearchDto {
+
+    private PageableRequest pageable;
+    private Long gameId;
+    private Long clientId;
+    private LocalDate date;
+
+    public PageableRequest getPageable() {
+        return pageable;
+    }
+
+    public void setPageable(PageableRequest pageable) {
+        this.pageable = pageable;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+}

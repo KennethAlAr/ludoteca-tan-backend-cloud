@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Tag(name = "Author", description = "API of Author")
 @RequestMapping(value = "/author")
 @RestController
-@CrossOrigin(origins = "*")
 public class AuthorController {
 
     @Autowired
