@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.ccsw.tutorialreservation.game.GameClient;
 import com.ccsw.tutorialreservation.client.ClientClient;
+import com.ccsw.tutorialreservation.common.jwt.JwtService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +43,9 @@ public class ReservationController {
 
     @Autowired
     ClientClient clientClient;
+
+    @Autowired
+    JwtService jwtService;
 
     /**
      * Método para recuperar un listado paginado de {@link Reservation}
@@ -79,7 +83,9 @@ public class ReservationController {
      */
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Reservation")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody ReservationDto dto) {
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody ReservationDto dto, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+
+        jwtService.validateToken(authorizationHeader);
 
         this.reservationService.save(id, dto);
     }
@@ -91,7 +97,9 @@ public class ReservationController {
      */
     @Operation(summary = "Delete", description = "Method that deletes a Reservation")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id) throws Exception {
+    public void delete(@PathVariable("id") Long id, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) throws Exception {
+
+        jwtService.validateToken(authorizationHeader);
 
         this.reservationService.delete(id);
     }

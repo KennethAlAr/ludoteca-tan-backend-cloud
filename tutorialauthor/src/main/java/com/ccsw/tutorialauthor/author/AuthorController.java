@@ -3,6 +3,7 @@ package com.ccsw.tutorialauthor.author;
 import com.ccsw.tutorialauthor.author.model.Author;
 import com.ccsw.tutorialauthor.author.model.AuthorDto;
 import com.ccsw.tutorialauthor.author.model.AuthorSearchDto;
+import com.ccsw.tutorialauthor.common.jwt.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,9 @@ public class AuthorController {
     @Autowired
     ModelMapper mapper;
 
+    @Autowired
+    JwtService jwtService;
+
     /**
      * Método para recuperar un listado paginado de {@link Author}
      *
@@ -52,7 +56,9 @@ public class AuthorController {
      */
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Author")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody AuthorDto dto) {
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody AuthorDto dto, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+
+        jwtService.validateToken(authorizationHeader);
 
         this.authorService.save(id, dto);
     }
@@ -64,7 +70,9 @@ public class AuthorController {
      */
     @Operation(summary = "Delete", description = "Method that deletes a Author")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id) throws Exception {
+    public void delete(@PathVariable("id") Long id, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) throws Exception {
+
+        jwtService.validateToken(authorizationHeader);
 
         this.authorService.delete(id);
     }

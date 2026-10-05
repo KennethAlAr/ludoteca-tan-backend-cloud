@@ -4,6 +4,7 @@ import com.ccsw.tutorialgame.author.AuthorClient;
 import com.ccsw.tutorialgame.author.model.AuthorDto;
 import com.ccsw.tutorialgame.category.CategoryClient;
 import com.ccsw.tutorialgame.category.model.CategoryDto;
+import com.ccsw.tutorialgame.common.jwt.JwtService;
 import com.ccsw.tutorialgame.game.model.Game;
 import com.ccsw.tutorialgame.game.model.GameDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +32,9 @@ public class GameController {
 
     @Autowired
     AuthorClient authorClient;
+
+    @Autowired
+    JwtService jwtService;
 
     /**
      * Método para recuperar una lista de {@link Game}
@@ -68,7 +72,9 @@ public class GameController {
      */
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Game")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody GameDto dto) {
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody GameDto dto, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+
+        jwtService.validateToken(authorizationHeader);
 
         gameService.save(id, dto);
     }

@@ -38,6 +38,11 @@ spring:
                 predicates:
                   - Path=/reservation/**
 
+              - id: auth
+                uri: lb://SPRING-CLOUD-EUREKA-CLIENT-AUTH
+                predicates:
+                  - Path=/auth/**
+
   web:
     cors:
       allowed-origins: "http://localhost:4200"

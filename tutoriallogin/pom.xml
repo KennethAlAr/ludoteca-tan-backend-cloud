@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ccsw</groupId>
-	<artifactId>tutorialreservation</artifactId>
+	<artifactId>tutoriallogin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

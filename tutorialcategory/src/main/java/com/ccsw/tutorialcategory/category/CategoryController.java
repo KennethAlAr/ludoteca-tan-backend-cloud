@@ -2,6 +2,7 @@ package com.ccsw.tutorialcategory.category;
 
 import com.ccsw.tutorialcategory.category.model.Category;
 import com.ccsw.tutorialcategory.category.model.CategoryDto;
+import com.ccsw.tutorialcategory.common.jwt.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
@@ -25,6 +26,9 @@ public class CategoryController {
 
     @Autowired
     ModelMapper mapper;
+
+    @Autowired
+    JwtService jwtService;
 
     /**
      * Método para recuperar todas las {@link Category}
@@ -50,7 +54,9 @@ public class CategoryController {
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Category"
     )
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody CategoryDto dto) {
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody CategoryDto dto, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+
+        jwtService.validateToken(authorizationHeader);
 
         this.categoryService.save(id, dto);
     }
@@ -62,7 +68,9 @@ public class CategoryController {
      */
     @Operation(summary = "Delete", description = "Method that deletes a Category")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable("id") Long id) throws Exception {
+    public void delete(@PathVariable("id") Long id, @RequestHeader(name = "Authorization", required = false) String authorizationHeader) throws Exception {
+
+        jwtService.validateToken(authorizationHeader);
 
         this.categoryService.delete(id);
     }
